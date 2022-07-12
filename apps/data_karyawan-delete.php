@@ -1,54 +1,53 @@
 <?php
 // Check existence of id parameter before processing further
-if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-    // Include config file
-    require_once "config.php";
+if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
+  // Include config file
+  require_once "config.php";
 
-    // Prepare a select statement
-    $sql = "SELECT * FROM data_karyawan WHERE id = ?";
+  // Prepare a select statement
+  $sql = "SELECT * FROM data_karyawan WHERE id = ?";
 
-    if($stmt = mysqli_prepare($link, $sql)){
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
+  if ($stmt = mysqli_prepare($link, $sql)) {
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "i", $param_id);
 
-        // Set parameters
-        $param_id = trim($_GET["id"]);
+    // Set parameters
+    $param_id = trim($_GET["id"]);
 
-        // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
-            $result = mysqli_stmt_get_result($stmt);
+    // Attempt to execute the prepared statement
+    if (mysqli_stmt_execute($stmt)) {
+      $result = mysqli_stmt_get_result($stmt);
 
-            if(mysqli_num_rows($result) == 1){
-                /* Fetch result row as an associative array. Since the result set
+      if (mysqli_num_rows($result) == 1) {
+        /* Fetch result row as an associative array. Since the result set
                 contains only one row, we don't need to use while loop */
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-                /* Retrieve individual field value
+        /* Retrieve individual field value
                 {INDIVIDUAL_FIELDS}
                 $name = $row["name"];
                 $address = $row["address"];
                 $salary = $row["salary"];
                  */
-            } else{
-                // URL doesn't contain valid id parameter. Redirect to error page
-                header("location: error.php");
-                exit();
-            }
-
-        } else{
-            echo "Oops! Something went wrong. Please try again later.";
-        }
+      } else {
+        // URL doesn't contain valid id parameter. Redirect to error page
+        header("location: error.php");
+        exit();
+      }
+    } else {
+      echo "Oops! Something went wrong. Please try again later.";
     }
+  }
 
-    // Close statement
-    mysqli_stmt_close($stmt);
+  // Close statement
+  mysqli_stmt_close($stmt);
 
-    // Close connection
-    mysqli_close($link);
-} else{
-    // URL doesn't contain id parameter. Redirect to error page
-    header("location: error.php");
-    exit();
+  // Close connection
+  mysqli_close($link);
+} else {
+  // URL doesn't contain id parameter. Redirect to error page
+  header("location: error.php");
+  exit();
 }
 ?>
 <!DOCTYPE html>
@@ -73,8 +72,8 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 
   <!-- Custom styles for this page -->
   <link href="../src/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  
- 
+
+
 </head>
 
 <body id="page-top">
@@ -83,8 +82,8 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
   <div id="wrapper">
 
     <!-- Sidebar -->
-	<?php include 'partial_sidebar.php';?>
-	<!-- End of Sidebar -->
+    <?php include 'partial_sidebar.php'; ?>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -93,35 +92,35 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
       <div id="content">
 
         <!-- Topbar -->
-		<?php include 'partial_topbar.php';?>
-		<!-- End of Topbar -->
+        <?php include 'partial_topbar.php'; ?>
+        <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Data Karyawan</h1>
-		  <div class="card shadow mb-4">
-			<div class="card-header py-3">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Hapus Data</h6>
             </div>
-            <div class="card-body" >
-				<div class="col-md-12 ">
-					<form action="data_karyawan-delete-ok.php" method="post">
-				      <div class="alert alert-danger" role="alert">
-							<p>Apakah anda ingin menghapus data <b><?php echo $row["nama"]; ?></b> ?</p><br>
-					  </div>
-					  <input type="hidden" name="id" value="<?php echo $row["id"]; ?>"/>
-					  <hr>
-					<div class="row justify-content-end">
-						<input type="submit" value="Ya" class="btn btn-danger"> &nbsp
-						<a href="data_karyawan-index.php" class="btn btn-primary">Batal</a>
-					</div> 
-					</form>
-				</div>
-			</div>
-			
-		  </div>
+            <div class="card-body">
+              <div class="col-md-12 ">
+                <form action="data_karyawan-delete-ok.php" method="post">
+                  <div class="alert alert-danger" role="alert">
+                    <p>Apakah anda ingin menghapus data <b><?php echo $row["nama"]; ?></b> ?</p><br>
+                  </div>
+                  <input type="hidden" name="id" value="<?php echo $row["id"]; ?>" />
+                  <hr>
+                  <div class="row justify-content-end">
+                    <input type="submit" value="Ya" class="btn btn-danger"> &nbsp
+                    <a href="data_karyawan-index.php" class="btn btn-primary">Batal</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -133,7 +132,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Arducoding 2020</span>
+            <span>Copyright &copy; <a href="htpps://tideup.tech"> PT. Titik Dedikasi Indonesia</a></span>
           </div>
         </div>
       </footer>
@@ -174,7 +173,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
   <!-- Bootstrap core JavaScript-->
   <script src="../src/vendor/jquery/jquery.min.js"></script>
   <script src="../src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  
+
   <!-- Custom scripts for all pages-->
   <script src="../src/js/sb-admin-2.min.js"></script>
 

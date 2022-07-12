@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>PT. Mantap - Dashboard</title>
+  <title>Halaman Error</title>
 
   <!-- Custom fonts for this template-->
   <link href="../src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,8 +20,8 @@
 
   <!-- Custom styles for this page -->
   <link href="../src/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  
- 
+
+
 </head>
 
 <body id="page-top">
@@ -30,8 +30,8 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-	<?php include 'partial_sidebar.php';?>
-	<!-- End of Sidebar -->
+    <?php include 'partial_sidebar.php'; ?>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -40,8 +40,8 @@
       <div id="content">
 
         <!-- Topbar -->
-		<?php include 'partial_topbar.php';?>
-		<!-- End of Topbar -->
+        <?php include 'partial_topbar.php'; ?>
+        <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -53,7 +53,7 @@
             <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
             <a href="index.php">&larr; Back to Dashboard</a>
           </div>
-         
+
         </div>
         <!-- /.container-fluid -->
 
@@ -64,7 +64,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Arducoding 2020</span>
+            <span>Copyright &copy; <a href="htpps://tideup.tech"> PT. Titik Dedikasi Indonesia</a></span>
           </div>
         </div>
       </footer>

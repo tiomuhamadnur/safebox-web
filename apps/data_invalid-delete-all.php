@@ -3,38 +3,36 @@
 require_once "config.php";
 
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-	// Prepare a delete statement
-    $sql = "TRUNCATE TABLE data_invalid";
-	
-    if($stmt = mysqli_prepare($link, $sql)){
-        // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
-            // Records deleted successfully. Redirect to landing page
-			echo '<script language="javascript" type="text/javascript"> 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Prepare a delete statement
+  $sql = "TRUNCATE TABLE data_invalid";
+
+  if ($stmt = mysqli_prepare($link, $sql)) {
+    // Attempt to execute the prepared statement
+    if (mysqli_stmt_execute($stmt)) {
+      // Records deleted successfully. Redirect to landing page
+      echo '<script language="javascript" type="text/javascript"> 
 								alert("Seluruh Data berhasil dihapus");
 								window.location.replace("data_invalid-index.php");
 					  </script>';
-            exit();
-        } else{
-            echo "Oops! Something went wrong. Please try again later.";
-        }
+      exit();
+    } else {
+      echo "Oops! Something went wrong. Please try again later.";
     }
-}else{
-	// Prepare a select statement
-	$sql = "SELECT * FROM data_invalid";
+  }
+} else {
+  // Prepare a select statement
+  $sql = "SELECT * FROM data_invalid";
 
-	if($stmt = mysqli_prepare($link, $sql)){
-		// Attempt to execute the prepared statement
-		if(mysqli_stmt_execute($stmt)){
-			$result = mysqli_stmt_get_result($stmt);
-			$rowcount=mysqli_num_rows($result);
-
-		} else{
-			echo "Oops! Something went wrong. Please try again later.";
-		}
-	}
-	
+  if ($stmt = mysqli_prepare($link, $sql)) {
+    // Attempt to execute the prepared statement
+    if (mysqli_stmt_execute($stmt)) {
+      $result = mysqli_stmt_get_result($stmt);
+      $rowcount = mysqli_num_rows($result);
+    } else {
+      echo "Oops! Something went wrong. Please try again later.";
+    }
+  }
 }
 
 // Close statement
@@ -65,8 +63,8 @@ mysqli_close($link);
 
   <!-- Custom styles for this page -->
   <link href="../src/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  
- 
+
+
 </head>
 
 <body id="page-top">
@@ -75,8 +73,8 @@ mysqli_close($link);
   <div id="wrapper">
 
     <!-- Sidebar -->
-	<?php include 'partial_sidebar.php';?>
-	<!-- End of Sidebar -->
+    <?php include 'partial_sidebar.php'; ?>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -85,36 +83,36 @@ mysqli_close($link);
       <div id="content">
 
         <!-- Topbar -->
-		<?php include 'partial_topbar.php';?>
-		<!-- End of Topbar -->
+        <?php include 'partial_topbar.php'; ?>
+        <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Data Karyawan</h1>
-		  <div class="card shadow mb-4">
-			<div class="card-header py-3">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Hapus Data</h6>
             </div>
-            <div class="card-body" >
-				<div class="col-md-12 ">
-					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-				      <div class="alert alert-danger" role="alert">
-							<p>Apakah anda ingin menghapus seluruh data kartu invalid?</p>
-							<p>Total Data: <b><?php echo $rowcount; ?></b></p><br>
-					  </div>
-					  <input type="hidden" name="id" value="<?php echo $row["id"]; ?>"/>
-					  <hr>
-					<div class="row justify-content-end">
-						<input type="submit" value="Ya" class="btn btn-danger"> &nbsp
-						<a href="data_invalid-index.php" class="btn btn-primary">Batal</a>
-					</div> 
-					</form>
-				</div>
-			</div>
-			
-		  </div>
+            <div class="card-body">
+              <div class="col-md-12 ">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                  <div class="alert alert-danger" role="alert">
+                    <p>Apakah anda ingin menghapus seluruh data kartu invalid?</p>
+                    <p>Total Data: <b><?php echo $rowcount; ?></b></p><br>
+                  </div>
+                  <input type="hidden" name="id" value="<?php echo $row["id"]; ?>" />
+                  <hr>
+                  <div class="row justify-content-end">
+                    <input type="submit" value="Ya" class="btn btn-danger"> &nbsp
+                    <a href="data_invalid-index.php" class="btn btn-primary">Batal</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
 
         </div>
         <!-- /.container-fluid -->

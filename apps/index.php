@@ -1,56 +1,56 @@
-<?php 
-	// Include config file
-	require_once "config.php";
+<?php
+// Include config file
+require_once "config.php";
 
-	// Prepare a delete statement
-	$sql = "SELECT * FROM data_karyawan";
+// Prepare a delete statement
+$sql = "SELECT * FROM data_karyawan";
 
-	if($stmt = mysqli_prepare($link, $sql)){
-		// Attempt to execute the prepared statement
-		if(mysqli_stmt_execute($stmt)){
-			$result = mysqli_stmt_get_result($stmt);
-			$rowcount=mysqli_num_rows($result);
-		}else{
-			$rowcount = "null";
-		}
-	}
-	$today = date("Y-m-d");
-	$sql = "SELECT data_absen.uid, tanggal, nama, division,
+if ($stmt = mysqli_prepare($link, $sql)) {
+  // Attempt to execute the prepared statement
+  if (mysqli_stmt_execute($stmt)) {
+    $result = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($result);
+  } else {
+    $rowcount = "null";
+  }
+}
+$today = date("Y-m-d");
+$sql = "SELECT data_absen.uid, tanggal, nama, division,
 			 min(case when status='IN' then  waktu end) jam_masuk,
 			 max(CASE WHEN status='OUT' then waktu end) jam_keluar
 		  FROM data_absen, data_karyawan 
-		  WHERE data_absen.uid=data_karyawan.uid  AND tanggal='".$today."'
+		  WHERE data_absen.uid=data_karyawan.uid  AND tanggal='" . $today . "'
 		  GROUP BY data_absen.uid";
-	
-	if($stmt = mysqli_prepare($link, $sql)){
-		//mysqli_stmt_bind_param($stmt, "i", $today );
-		// Attempt to execute the prepared statement
-		if(mysqli_stmt_execute($stmt)){
-			$result = mysqli_stmt_get_result($stmt);
-			$absensi =mysqli_num_rows($result);
-		}else{
-			$absensi = "null";
-		}
-	}
-	
-	$sql = "SELECT * FROM data_invalid GROUP BY uid";
-	if($stmt = mysqli_prepare($link, $sql)){
-		//mysqli_stmt_bind_param($stmt, "i", $today );
-		// Attempt to execute the prepared statement
-		if(mysqli_stmt_execute($stmt)){
-			$result = mysqli_stmt_get_result($stmt);
-			$invalid =mysqli_num_rows($result);
-		}else{
-			$invalid = "null";
-		}
-	}
-	
-	
-	// Close statement
-	mysqli_stmt_close($stmt);
 
-	// Close connection
-	mysqli_close($link);
+if ($stmt = mysqli_prepare($link, $sql)) {
+  //mysqli_stmt_bind_param($stmt, "i", $today );
+  // Attempt to execute the prepared statement
+  if (mysqli_stmt_execute($stmt)) {
+    $result = mysqli_stmt_get_result($stmt);
+    $absensi = mysqli_num_rows($result);
+  } else {
+    $absensi = "null";
+  }
+}
+
+$sql = "SELECT * FROM data_invalid GROUP BY uid";
+if ($stmt = mysqli_prepare($link, $sql)) {
+  //mysqli_stmt_bind_param($stmt, "i", $today );
+  // Attempt to execute the prepared statement
+  if (mysqli_stmt_execute($stmt)) {
+    $result = mysqli_stmt_get_result($stmt);
+    $invalid = mysqli_num_rows($result);
+  } else {
+    $invalid = "null";
+  }
+}
+
+
+// Close statement
+mysqli_stmt_close($stmt);
+
+// Close connection
+mysqli_close($link);
 ?>
 
 <!DOCTYPE html>
@@ -64,8 +64,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Home | SAFEBOX</title>
-   <link rel="icon" type="image/x-icon" href="../img/ff.png">
+  <title>Dashboard - SAFEBOX</title>
+  <link rel="icon" type="image/x-icon" href="../img/ff.png">
 
   <!-- Custom fonts for this template-->
   <link href="../src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -74,8 +74,7 @@
   <!-- Custom styles for this template-->
   <link href="../src/css/sb-admin-2.min.css" rel="stylesheet">
 
-   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
 </head>
 
@@ -85,9 +84,9 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-	<?php include 'partial_sidebar.php';?>
-	<!-- End of Sidebar -->
-	
+    <?php include 'partial_sidebar.php'; ?>
+    <!-- End of Sidebar -->
+
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
@@ -95,8 +94,8 @@
       <div id="content">
 
         <!-- Topbar -->
-		<?php include 'partial_topbar.php';?>
-		<!-- End of Topbar -->
+        <?php include 'partial_topbar.php'; ?>
+        <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">

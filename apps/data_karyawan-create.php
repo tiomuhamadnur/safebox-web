@@ -22,8 +22,8 @@ $picture_err = "";
 
 
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-/*    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  /*    
     // Validate input
     $input_address = trim($_POST["address"]);
     if(empty($input_address)){
@@ -36,41 +36,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($name_err) && empty($address_err) && empty($salary_err)){
         // Prepare an insert statement
  */
-        $created = date("Y-m-d");
-		$uid = trim($_POST["uid"]);
-		$nama = trim($_POST["nama"]);
-		$division = trim($_POST["division"]);
-		$mail = trim($_POST["mail"]);
-		$alamat = trim($_POST["alamat"]);
-		$picture = "";
-		
+  $created = date("Y-m-d");
+  $uid = trim($_POST["uid"]);
+  $nama = trim($_POST["nama"]);
+  $division = trim($_POST["division"]);
+  $mail = trim($_POST["mail"]);
+  $alamat = trim($_POST["alamat"]);
+  $picture = "";
 
-        $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
-        $options = [
-          PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
-          PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
-        ];
-        try {
-          $pdo = new PDO($dsn, $db_user, $db_password, $options);
-        } catch (Exception $e) {
-          error_log($e->getMessage());
-          exit('Something weird happened'); //something a user can understand
-        }
-        $stmt = $pdo->prepare("INSERT INTO data_karyawan (created,uid,nama,division,mail,alamat,picture) VALUES (?,?,?,?,?,?,?)"); 
-        
-        if($stmt->execute([ $created,$uid,$nama,$division,$mail,$alamat,$picture  ])) {
-                $stmt = null;
-				//echo "<script type='text/javascript'>alert('Data berhasil ditambahkan');</script>";
-                //header("location: data_karyawan-index.php");
-				echo '<script language="javascript" type="text/javascript"> 
+
+  $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
+  $options = [
+    PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
+  ];
+  try {
+    $pdo = new PDO($dsn, $db_user, $db_password, $options);
+  } catch (Exception $e) {
+    error_log($e->getMessage());
+    exit('Something weird happened'); //something a user can understand
+  }
+  $stmt = $pdo->prepare("INSERT INTO data_karyawan (created,uid,nama,division,mail,alamat,picture) VALUES (?,?,?,?,?,?,?)");
+
+  if ($stmt->execute([$created, $uid, $nama, $division, $mail, $alamat, $picture])) {
+    $stmt = null;
+    //echo "<script type='text/javascript'>alert('Data berhasil ditambahkan');</script>";
+    //header("location: data_karyawan-index.php");
+    echo '<script language="javascript" type="text/javascript"> 
 								alert("Data berhasil ditambahkan");
 								window.location.replace("data_karyawan-index.php");
 					  </script>';
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-
+  } else {
+    echo "Something went wrong. Please try again later.";
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -84,7 +83,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>PT. Mantap - Dashboard</title>
+  <title>Tambah Data Tim</title>
 
   <!-- Custom fonts for this template-->
   <link href="../src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -95,8 +94,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   <!-- Custom styles for this page -->
   <link href="../src/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  
- 
+
+
 </head>
 
 <body id="page-top">
@@ -105,8 +104,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <div id="wrapper">
 
     <!-- Sidebar -->
-	<?php include 'partial_sidebar.php';?>
-	<!-- End of Sidebar -->
+    <?php include 'partial_sidebar.php'; ?>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -115,68 +114,59 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <div id="content">
 
         <!-- Topbar -->
-		<?php include 'partial_topbar.php';?>
-		<!-- End of Topbar -->
+        <?php include 'partial_topbar.php'; ?>
+        <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Data Karyawan</h1>
-		  <div class="card shadow mb-4">
-			<div class="card-header py-3">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Tambah Data</h6>
             </div>
-            <div class="card-body" >
-				<div class="col-md-12">
-				  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-					  <div class="form-group">
-						<label for="nama">Nama</label>
-						<input type="text" name="nama" class="form-control" value="<?php echo $nama; ?>" placeholder="Input nama karyawan" required>
-                        <span class="help-block"><?php echo $nama_err; ?></span>
-					  </div>
-					  <div class="form-row">
-						<div class="form-group col-md-6">
-						  <label for="uid">UID</label>
-                          <input type="text" name="uid" class="form-control" value="<?php echo $uid; ?>" placeholder="Input UID kartu absensi" required>
-                          <span class="help-block"><?php echo $uid_err; ?></span>
-						</div>
-						<div class="form-group col-md-6">
-						  <label for="mail">Email</label>
-						  <input type="text" name="mail" class="form-control" value="<?php echo $mail; ?>" placeholder="Input email karyawan" required>
-						  <span class="help-block"><?php echo $mail_err; ?></span>
-						</div>
-					  </div>
-					  <div class="form-group">
-						<label for="division">Divisi</label>
-						<select class="form-control" name="division">
-							<option value="Produksi">Produksi</option>
-							<option value="Keuangan">Keuangan</option>
-							<option value="Perlengkapan">Perlengkapan</option>
-							<option value="Personalia">Personalia</option>
-							<option value="Keteknikan">Keteknikan</option>
-						</select>
-						<!--
-						<input type="text" name="division" class="form-control" value="<?php echo $division; ?>" placeholder="Input divisi/bagian" required>
-						-->
-						<span class="help-block"><?php echo $division_err; ?></span>
-					  </div>
-					  <div class="form-group">
-						<label for="alamat">Alamat</label>
-						<textarea name="alamat" class="form-control" placeholder="Input alamat rumah karyawan"><?php echo $alamat ; ?></textarea>
-						<span class="help-block"><?php echo $alamat_err; ?></span>
-					  </div>
-					  <hr>
-					<div class="row justify-content-end">
-						<input type="submit" class="btn btn-success" value="Tambah"> &nbsp
-                        <a href="data_karyawan-index.php" class="btn btn-primary">Batal</a>
-					</div>  
-				</form>
-				  
-				</div>
-			</div>
-			
-		  </div>
+            <div class="card-body">
+              <div class="col-md-12">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                  <div class="form-group">
+                    <label for="nama">Nama</label>
+                    <input type="text" name="nama" class="form-control" value="<?php echo $nama; ?>" placeholder="Input nama karyawan" required>
+                    <span class="help-block"><?php echo $nama_err; ?></span>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="uid">UID</label>
+                      <input type="text" name="uid" class="form-control" value="<?php echo $uid; ?>" placeholder="Input UID kartu absensi" required>
+                      <span class="help-block"><?php echo $uid_err; ?></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="mail">Email</label>
+                      <input type="text" name="mail" class="form-control" value="<?php echo $mail; ?>" placeholder="Input email karyawan">
+                      <span class="help-block"><?php echo $mail_err; ?></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="division">Divisi</label>
+                    <input type="text" name="division" value="<?php echo $division; ?>" class="form-control" placeholder="Input nama departemen">
+                    <span class="help-block"><?php echo $division_err; ?></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="alamat">Alamat</label>
+                    <textarea name="alamat" class="form-control" placeholder="Input alamat rumah karyawan"><?php echo $alamat; ?></textarea>
+                    <span class="help-block"><?php echo $alamat_err; ?></span>
+                  </div>
+                  <hr>
+                  <div class="row justify-content-end">
+                    <input type="submit" class="btn btn-success" value="Tambah"> &nbsp
+                    <a href="data_karyawan-index.php" class="btn btn-primary">Batal</a>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+
+          </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -188,7 +178,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Arducoding 2020</span>
+            <span>Copyright &copy; <a href="htpps://tideup.tech"> PT. Titik Dedikasi Indonesia</a></span>
           </div>
         </div>
       </footer>
